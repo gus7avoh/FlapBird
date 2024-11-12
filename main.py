@@ -7,16 +7,20 @@ TELA_ALTURA = 800
 
 FONTE_2D = os.path.join('fonts', 'PressStart2P-Regular.ttf')
 
-IMAGEM_CANO = pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'pipe.png')))
-IMAGEM_CHAO = pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'base.png')))
-IMAGEM_BACKGROUND = pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bg.png')))
+IMAGEM_CANO = pygame.transform.scale2x(pygame.image.load(os.path.join('imgs','pipes', 'pipe.png')))
+IMAGEM_CHAO = pygame.transform.scale2x(pygame.image.load(os.path.join('imgs','bases', 'base.png')))
+
 IMAGENS_PASSARO = [
-    pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bird1.png'))),
-    pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bird2.png'))),
-    pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bird3.png'))),
+    pygame.transform.scale2x(pygame.image.load(os.path.join('imgs','birds', 'bird1.png'))),
+    pygame.transform.scale2x(pygame.image.load(os.path.join('imgs','birds','bird2.png'))),
+    pygame.transform.scale2x(pygame.image.load(os.path.join('imgs','birds','bird3.png'))),
 ]
 
-IMAGENS_PASSARO_BACKGROUND = pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bird1.png')))
+IMAGEM_BACKGROUND = [
+    pygame.transform.scale2x(pygame.image.load(os.path.join('imgs','background', 'bg.png'))),
+    pygame.transform.scale2x(pygame.image.load(os.path.join('imgs','background', 'white.png'))),
+    pygame.transform.scale2x(pygame.image.load(os.path.join('imgs','background', 'spring.png')))
+]
 
 pygame.font.init()
 FONTE_PONTOS = pygame.font.Font(FONTE_2D, 25)
@@ -24,6 +28,15 @@ FONTE_TITULO = pygame.font.Font(FONTE_2D, 35)
 FONTE_FLAP = pygame.font.Font(FONTE_2D, 40)
 FONTE_LM = pygame.font.Font(FONTE_2D, 15)
 
+class BackGround:
+    IMGS = IMAGEM_BACKGROUND
+
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+
+    def desenhar(self, tela, vetor):
+        tela.blit(self.IMGS[vetor], (self.x, self.y))
 
 class Passaro:
     IMGS = IMAGENS_PASSARO
@@ -84,7 +97,6 @@ class Passaro:
             self.imagem = self.IMGS[0]
             self.contagem_imagem = 0
 
-
         # se o passaro tiver caindo eu não vou bater asa
         if self.angulo <= -80:
             self.imagem = self.IMGS[1]
@@ -98,7 +110,6 @@ class Passaro:
 
     def get_mask(self):
         return pygame.mask.from_surface(self.imagem)
-
 
 class Cano:
     DISTANCIA = 200
@@ -142,7 +153,6 @@ class Cano:
         else:
             return False
 
-
 class Chao:
     VELOCIDADE = 5
     LARGURA = IMAGEM_CHAO.get_width()
@@ -173,7 +183,7 @@ def reiniciar(canos,remover_canos,adicionar_cano):
     remover_canos.clear()
 
 def desenhar_tela(tela, passaro, canos, chao, pontos):
-    tela.blit(IMAGEM_BACKGROUND, (0, 0))
+    BackGround().desenhar(tela, 0)
 
     passaro.desenhar(tela)
     for cano in canos:
@@ -184,9 +194,8 @@ def desenhar_tela(tela, passaro, canos, chao, pontos):
     chao.desenhar(tela)
     pygame.display.update()
 
-
 def tela_inicial(tela, passaro, chao, last=0, maximo=0):
-    tela.blit(IMAGEM_BACKGROUND, (0, 0))
+    BackGround().desenhar(tela, 0) 
     chao.desenhar(tela)
     passaro.desenhar(tela)
 
@@ -230,8 +239,6 @@ def menu(chao, passaro, tela, relogio, tabelaPontos):
         
         chao.mover()
         tela_inicial(tela, passaro, chao, last, maximo)
-
-
 
 def runGame(passaro,chao,canos,tela,pontos,relogio,tabelaPontos):
 
@@ -297,8 +304,6 @@ def main():
     tabelaPontos = []
 
     while(True):
-
-
         menu(chao, passaro, tela, relogio, tabelaPontos)
         runGame(passaro, chao, canos, tela, pontos, relogio, tabelaPontos)
 
