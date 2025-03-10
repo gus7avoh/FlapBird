@@ -1,4 +1,0 @@
-Ja criei o objeto Backgroung e ele esta funcionado corretamente, um vetor é passado na chamada do metodo e ele define qual imagem vai ser selecionada.
-
--  criar um metodo para modificar a velociade do jogo, ele vai ser implementado modificando a velociade dos canos e do piso ja que aparentemente o time.clock so esta modificando a velociade em que as movimentçaoes sao feitas( tenho que ver como esse metodo funciona )
-
